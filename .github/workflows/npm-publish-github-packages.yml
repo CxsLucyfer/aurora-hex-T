@@ -1,0 +1,160 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: Node.js Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npm test
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+            - name: Setup Node.js environment
+  uses: actions/setup-node@v4.0.1
+  with:
+    # Set always-auth in npmrc.
+    always-auth: # optional, default is false
+    # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
+    node-version: # optional
+    # File containing the version Spec of the version to use.  Examples: package.json, .nvmrc, .node-version, .tool-versions.
+    node-version-file: # optional
+    # Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.
+    architecture: # optional
+    # Set this option if you want the action to check for the latest available version that satisfies the version spec.
+    check-latest: # optional
+    # Optional registry to set up for auth. Will set the registry in a project level .npmrc and .yarnrc file, and set up auth to read in from env.NODE_AUTH_TOKEN.
+    registry-url: # optional
+    # Optional scope for authenticating against scoped registries. Will fall back to the repository owner when using the GitHub Packages registry (https://npm.pkg.github.com/).
+    scope: # optional
+    # Used to pull node distributions from node-versions. Since there's a default, this is typically not supplied by the user. When running this action on github.com, the default value is sufficient. When running on GHES, you can pass a personal access token for github.com if you are experiencing rate limiting.
+    token: # optional, default is ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.
+    cache: # optional
+    # Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.
+    cache-dependency-path: # optional
+                      - name: Setup Node.js environment
+  uses: actions/setup-node@v4.0.1
+  with:
+    # Set always-auth in npmrc.
+    always-auth: # optional, default is false
+    # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
+    node-version: # optional
+    # File containing the version Spec of the version to use.  Examples: package.json, .nvmrc, .node-version, .tool-versions.
+    node-version-file: # optional
+    # Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.
+    architecture: # optional
+    # Set this option if you want the action to check for the latest available version that satisfies the version spec.
+    check-latest: # optional
+    # Optional registry to set up for auth. Will set the registry in a project level .npmrc and .yarnrc file, and set up auth to read in from env.NODE_AUTH_TOKEN.
+    registry-url: # optional
+    # Optional scope for authenticating against scoped registries. Will fall back to the repository owner when using the GitHub Packages registry (https://npm.pkg.github.com/).
+    scope: # optional
+    # Used to pull node distributions from node-versions. Since there's a default, this is typically not supplied by the user. When running this action on github.com, the default value is sufficient. When running on GHES, you can pass a personal access token for github.com if you are experiencing rate limiting.
+    token: # optional, default is ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.
+    cache: # optional
+    # Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.
+    cache-dependency-path: # optional
+                      - name: Docker Login
+  # You may pin to the exact commit or the version.
+  # uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
+  uses: docker/login-action@v3.0.0
+  with:
+    # Server address of Docker registry. If not set then will default to Docker Hub
+    registry: # optional
+    # Username used to log against the Docker registry
+    username: # optional
+    # Password or personal access token used to log against the Docker registry
+    password: # optional
+    # Specifies whether the given registry is ECR (auto, true or false)
+    ecr: # optional, default is auto
+    # Log out from the Docker registry at the end of a job
+    logout: # optional, default is true
+                - name: Docker image exists
+  # You may pin to the exact commit or the version.
+  # uses: cloudposse/github-action-docker-image-exists@3a691104a3d105aecb95e17e8ac5f21d271e53be
+  uses: cloudposse/github-action-docker-image-exists@0.1.2
+  with:
+    # Organization
+    organization: 
+    # Repository
+    repository: 
+    # Docker registry
+    registry: 
+    # Image name (excluding registry). Defaults to {{$organization/$repository}}.
+    image_name: # optional, default is 
+    # Tag
+    tag: 
+    # Docker login
+    login: # optional, default is 
+    # Docker password
+    password: # optional, default is 
+          
+                - name: Docker Setup QEMU
+  # You may pin to the exact commit or the version.
+  # uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e3
+  uses: docker/setup-qemu-action@v3.0.0
+  with:
+    # QEMU static binaries Docker image (e.g. tonistiigi/binfmt:latest)
+    image: # optional, default is tonistiigi/binfmt:latest
+    # Platforms to install (e.g. arm64,riscv64,arm)
+    platforms: # optional, default is all
+                  - name: Dockerfile example
+  # You may pin to the exact commit or the version.
+  # uses: devops-actions/docker-action-demo2@8fe75b12f30470cb6e96d9b88e34858258bae4a0
+  uses: devops-actions/docker-action-demo2@v0.0.1-alpha
+              - name: Docker Buildx Bake
+  # You may pin to the exact commit or the version.
+  # uses: docker/bake-action@849707117b03d39aba7924c50a10376a69e88d7d
+  uses: docker/bake-action@v4.1.0
+  with:
+    # Builder instance
+    builder: # optional
+    # List of bake definition files
+    files: # optional
+    # Working directory of bake execution
+    workdir: # optional, default is .
+    # List of bake targets
+    targets: # optional
+    # Do not use cache when building the image
+    no-cache: # optional, default is false
+    # Always attempt to pull a newer version of the image
+    pull: # optional, default is false
+    # Load is a shorthand for --set=*.output=type=docker
+    load: # optional, default is false
+    # Provenance is a shorthand for --set=*.attest=type=provenance
+    provenance: # optional
+    # Push is a shorthand for --set=*.output=type=registry
+    push: # optional, default is false
+    # SBOM is a shorthand for --set=*.attest=type=sbom
+    sbom: # optional
+    # List of targets values to override (eg. targetpattern.key=value)
+    set: # optional
+    # Remote bake definition to build from
+    source: # optional
+                           
