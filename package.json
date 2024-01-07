@@ -71,7 +71,7 @@
     "typescript": "^5.1.0",
     "vite": "^4.4.9",
     "vite-plugin-html-transformer": "^4.0.0",
-    "vite-plugin-pages": "^0.31.0",
+    "vite-plugin-pages": "^0.32.0",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue-easy-lightbox": "^1.16.0",
     "vue-jest": "^3.0.7",
