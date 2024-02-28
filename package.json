@@ -43,8 +43,8 @@
     "vue3-lazyload": "^0.3.8"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.7.1",
-    "@commitlint/config-conventional": "^17.7.0",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@types/jest": "^29.5.4",
     "@types/js-cookie": "^3.0.3",
     "@types/node": "^20.5.7",
